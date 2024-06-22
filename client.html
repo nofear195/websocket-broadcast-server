@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Example with Button</title>
+    <style>
+      #messages {
+        height: 200px; /* Set a fixed height */
+        width: 300px; /* Set a fixed width */
+        border: 1px solid black;
+        overflow: auto; /* Allows scrolling when content overflows */
+        padding: 5px;
+        margin-top: 20px;
+      }
+    </style>
+    <script>
+      const role = "web-client";
+      let ws = null; // Initialize WebSocket variable
+
+      function connectWebSocket() {
+        ws = new WebSocket("ws://127.0.0.1:5000");
+
+        ws.onopen = function () {
+          console.log("Connected to server");
+          sendMessage("user01 register");
+        };
+
+        ws.onmessage = function (event) {
+          console.log("Received message from server: ", event.data);
+          displayMessage(event.data);
+        };
+
+        ws.onerror = function (error) {
+          console.error("WebSocket error: ", error);
+        };
+
+        ws.onclose = function () {
+          console.log("WebSocket connection closed");
+        };
+      }
+
+      function sendMessage(message) {
+        const data = { role, message };
+        ws.send(JSON.stringify(data));
+      }
+
+      function sendTestMessage() {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          sendMessage("This is a test message.");
+        } else {
+          console.log("WebSocket is not connected.");
+        }
+      }
+      function displayMessage(message) {
+        const messagesDiv = document.getElementById("messages");
+        const p = document.createElement("p");
+        p.textContent = message;
+        messagesDiv.appendChild(p);
+
+        // Scroll to the bottom of the message div
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>WebSocket Client</h1>
+    <button onclick="connectWebSocket()">Connect to WebSocket</button>
+    <button onclick="sendTestMessage()">Send Test Message</button>
+    <div id="messages"></div>
+  </body>
+</html>

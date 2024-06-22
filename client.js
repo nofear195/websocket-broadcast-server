@@ -2,8 +2,11 @@ const WebSocket = require("ws");
 
 const ws = new WebSocket("ws://localhost:5000");
 
+const role = "nodejs-client";
+
 ws.on("open", function open() {
   console.log("Connected to server");
+  sendMessage({ data: "nodejs-client register" });
 });
 
 ws.on("message", function incoming(data) {
@@ -24,12 +27,12 @@ ws.on("close", function close() {
   console.log("WebSocket connection closed");
 });
 
-function sendMessage(ws, role, message) {
+function sendMessage(message) {
   const data = { role, message };
   ws.send(JSON.stringify(data));
 }
 
 setInterval(() => {
   if (ws.readyState !== WebSocket.OPEN) return;
-  sendMessage(ws, "test", { data: "test" });
+  sendMessage("test");
 }, 5000);

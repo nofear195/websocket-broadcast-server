@@ -19,9 +19,14 @@ npm run start
 
 ### Starting the Client
 
+-  by node.js
+
 ```bash
 node client.js
 ```
+
+- open client.html file directly
+
 
 ### Code Overview
 
@@ -37,5 +42,8 @@ node client.js
 
    - Provides an example of a Broadcast Server using the custom class `BroadcastServer`
 
-3. `client.js`
+3. `client.js` and `client.html`
    - Provides an example of a WebSocket client that connects to the server
+
+## More Information
+   - [https://nofear195.github.io/posts/websocket-broadcast-server](https://nofear195.github.io/posts/websocket-broadcast-server)

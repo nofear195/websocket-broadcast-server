@@ -50,8 +50,10 @@ class BroadcastServer {
       if (!isValidJSON(data)) throw new Error("message is a not valid JSON format");
       const { role, message } = JSON.parse(data);
 
-      if (!this.clients.get(role)) this.clients.set(role, client);
-
+      if (!this.clients.get(role)) {
+        this.clients.set(role, client);
+        console.log(`${role} registered!`)
+      }
       const existClient = this.clients.get(role);
       if (client.id !== existClient.id) {
         existClient.ws.terminate();
